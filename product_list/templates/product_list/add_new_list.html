@@ -1,0 +1,16 @@
+<h1>Add new List</h1>
+<div class="form">
+    <form action="{% url 'product_list:add_list' %}" method="post">
+        {% csrf_token %}
+        <label for="list_name">List Name:</label>
+        <input type="text" id="list_name" name="title" size="50"/><br>
+        <label for="list_status">Status:</label>
+        <select id="list_status" name="status">
+            <option value="P">Pending</option>
+            <option value="D">Done</option>
+        </select>
+        <br>
+        <input type="submit" value="Save"/>
+    </form>
+    <a href="{% url 'product_list:index' %}">Cancel</a>
+</div>

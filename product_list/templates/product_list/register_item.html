@@ -1,0 +1,43 @@
+{% extends "product_list/base.html" %}
+{% block content %}
+<h1>Register new item!</h1>
+
+<div class="container">
+    <form action="{% url 'product_list:save_item' %}" method="post">
+        {% csrf_token %}
+        <fieldset class="form-group">
+        <label for="new_item_name">Item Name:</label>
+        <input class="form-control" type="text" id="new_item_name" name="name" size="50"/></br>
+        </fieldset>
+        <fieldset class="form-group">
+        <label for="new_item_description">Description:</label>
+        <textarea class="form-control" id="new_item_description" name="description"></textarea></br>
+        </fieldset>
+        <fieldset class="form-group">
+        <label for="new_item_quantity">Quantity:</label>
+        <input class="form-control" type="number" step="0.01" min="0" name="quantity" id="new_item_quantity">
+        </fieldset>
+        <fieldset class="form-group">
+        <label for="new_item_units">Units:</label>
+        <select class="form-control" id="new_item_units" name="quantity_units">
+            <option value="K">KG</option>
+            <option value="P">Pack</option>
+            <option value="L">Liter</option>
+            <option value="M">Meter</option>
+        </select>
+        </fieldset>
+        </br>
+        <fieldset class="form-group">
+        <label for="new_item_status">Status:</label>
+        <select class="form-control" name="status" id="new_item_status">
+            <option value="P">Pending</option>
+            <option value="D">Done</option>
+            <option value="R">Reject</option>
+        </select>
+        </fieldset>
+        </br>
+        <button class="btn btn-primary" type="submit">Save</button>
+    </form>
+    <a href="{% url 'product_list:items' %}">Cancel</a>
+</div>
+{% endblock %}

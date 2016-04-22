@@ -1,0 +1,157 @@
+{% extends "product_list/base.html" %}
+{% block content %}
+
+<div class="container">
+<h3>Items list:</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Quantity Units</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in listitemdescription_list.all %}
+        <tr>
+            <td id="item-name-{{ item.id }}" value="{{ item.name }}">{{ item.name }}</td>
+            <td id="item-description-{{ item.id }}" value="{{ item.description }}">{{ item.description }}</td>
+            <td id="item-quantity-{{ item.id }}" value="{{ item.quantity }}">{{ item.quantity }}</td>
+            <td id="item-units-{{ item.id }}" value="{{ item.quantity_units }}">{{ item.quantity_units }}</td>
+            <td id="item-edit-{{ item.id }}"><a href="#" data-href="{% url 'product_list:update_item' item.id %}" data-toggle="modal" data-target="#EditItemDescriptionModal" data-id="item-edit-{{ item.id }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+            <td id="item-delete-{{ item.id }}"><a href='#' data-href="{% url 'product_list:remove_item' item.id %}" data-toggle="modal" data-target="#RemoveItemDescriptionModal" data-name="{{ item.name }}" data-id="item-delete-{{ item.id }}"><span class="glyphicon glyphicon-trash"></span></a></td>
+{#            <td><a href="{% url 'product_list:remove_item' item.id %}" data-target="#RemoveItemDescriptionModal"><span class="glyphicon glyphicon-trash"></span></a></td>#}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{#    <a href="{% url 'product_list:add_item' %}" class="btn btn-info btn-sm">#}
+{#        <span class="glyphicon glyphicon-plus"></span>Add new item#}
+{#    </a>#}
+<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addNewItemDescriptionModal"><span class="glyphicon glyphicon-plus"></span>Add New Item</button>
+</div>
+
+<div id="addNewItemDescriptionModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create new item</h4>
+      </div>
+      <div class="form">
+      <form action="{% url 'product_list:save_item' %}" method="post">
+            {% csrf_token %}
+            <div class="modal-body">
+                <label for="new_item_name">Item Name:</label>
+                <input class="form-control" type="text" id="new_item_name" name="name" size="50"/>
+                <label for="new_item_description">Description:</label>
+                <textarea class="form-control" id="new_item_description" name="description"></textarea>
+                <label for="new_item_quantity">Quantity:</label>
+                <input class="form-control" type="number" step="0.01" min="0" name="quantity" id="new_item_quantity">
+                <label for="new_item_units">Units:</label>
+                <select class="form-control" id="new_item_units" name="quantity_units">
+                    <option value="K">KG</option>
+                    <option value="P">Pack</option>
+                    <option value="L">Liter</option>
+                    <option value="M">Meter</option>
+                </select>
+                <label for="new_item_status">Status:</label>
+                <select class="form-control" name="status" id="new_item_status">
+                    <option value="P">Pending</option>
+                    <option value="D">Done</option>
+                    <option value="R">Reject</option>
+                </select>
+            </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" value="Save">Save</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div id="EditItemDescriptionModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update Item: </h4>
+      </div>
+      <form class="edit-item-form" action="#" method="post">
+      {% csrf_token %}
+      <div class="modal-body">
+          <label for="new_item_name">Item Name:</label>
+                <input class="form-control" type="text" id="new_item_name" name="name" size="50"/>
+                <label for="new_item_description">Description:</label>
+                <textarea class="form-control" id="new_item_description" name="description"></textarea>
+                <label for="new_item_quantity">Quantity:</label>
+                <input class="form-control" type="number" step="0.01" min="0" name="quantity" id="new_item_quantity">
+                <label for="new_item_units">Units:</label>
+                <select class="form-control" id="new_item_units" name="quantity_units">
+                    <option value="K">KG</option>
+                    <option value="P">Pack</option>
+                    <option value="L">Liter</option>
+                    <option value="M">Meter</option>
+                </select>
+                <label for="new_item_status">Status:</label>
+                <select class="form-control" name="status" id="new_item_status">
+                    <option value="P">Pending</option>
+                    <option value="D">Done</option>
+                    <option value="R">Reject</option>
+                </select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" value="Save">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div id="RemoveItemDescriptionModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Remove: </h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to remove <span class="item-name"></span>?
+      </div>
+      <div class="modal-footer">
+          <a class="btn btn-primary btn-ok">Remove</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $('#RemoveItemDescriptionModal').on('show.bs.modal', function(e){
+       $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+       $('.item-name').html('<strong>' + $(e.relatedTarget).data('name') + '</strong>');
+    });
+
+    $('#EditItemDescriptionModal').on('show.bs.modal', function(e){
+       var itemId = $(e.relatedTarget).attr('data-id').match(/\d+/);
+        console.log('Item id: ' + itemId);
+        $(this).find('#new_item_name').val($('#item-name-'+itemId).attr('value'));
+        $(this).find('#new_item_description').attr('text',$('#item-description-'+itemId).attr('value'));
+        $(this).find('#new_item_description').val($('#item-description-'+itemId).attr('value'));
+        $(this).find('#new_item_quantity').val($('#item-quantity-'+itemId).attr('value'));
+        $(this).find('#new_item_units').val($('#item-units-'+itemId).attr('value'));
+        $(this).find('.edit-item-form').attr('action', $(e.relatedTarget).data('href'));
+    });
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<h1 xmlns="http://www.w3.org/1999/html">Edit item</h1>
+
+<div class="form">
+    <form action="{% url 'product_list:update_item' listitemdescription.id %}" method="post">
+        {% csrf_token %}
+        <label for="new_item_name">Item Name:</label>
+        <input type="text" id="new_item_name" name="name" size="50" value="{{ listitemdescription.name }}"></br>
+        <label for="new_item_description">Description:</label>
+        <textarea id="new_item_description" name="description">{{ listitemdescription.description }}</textarea></br>
+        <label for="new_item_quantity">Quantity:</label>
+        <input type="number" step="0.01" min="0" name="quantity" id="new_item_quantity" value="{{ listitemdescription.quantity }}">
+        <label for="new_item_units">Units:</label>
+        <select id="new_item_units" name="quantity_units">
+            <option value="K" >KG</option>
+            <option value="P">Pack</option>
+            <option value="L">Liter</option>
+            <option value="M">Meter</option>
+        </select>
+        <br>
+        <label for="new_item_status">Status:</label>
+        <select name="status" id="new_item_status" >
+            <option value="P">Pending</option>
+            <option value="D">Done</option>
+            <option value="R">Reject</option>
+        </select>
+        <br>
+        <input type="submit" value="Save"/>
+    </form>
+    <a href="{% url 'product_list:items' %}">Cancel</a>
+</div>

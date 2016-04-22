@@ -1,0 +1,55 @@
+{% extends "product_list/base.html" %}
+{% block content %}
+
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% csrf_token %}
+<div class="container">
+    <h3>{{ checklist.title }} list</h3>
+    <ul class="list-group">
+    {% for item in checklist.listitem_set.all %}
+        <li name="item" id="item-{{ item.id }}" class="list-group-item">{{ item.name }} <a href="{% url 'product_list:desc_list' checklist.id item.id %}"><span class="glyphicon glyphicon-link"></span></a>  <a href="{% url 'product_list:remove_item_from_list' checklist.id item.id %}"><span class="glyphicon glyphicon-remove"></span></a></li>
+
+    {% endfor %}
+    </ul>
+
+{#    <a href="{% url 'product_list:add_item_to_list' checklist.id %}" class="btn btn-info btn-sm">#}
+{#        <span class="glyphicon glyphicon-plus"></span>Add new item#}
+{#    </a>#}
+    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addNewItemModal"><span class="glyphicon glyphicon-plus"></span>Add New Item</button>
+</div>
+
+<div id="addNewItemModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create new item</h4>
+      </div>
+      <div class="form">
+      <form action="{% url 'product_list:save_item_to_list' checklist.id %}" method="post">
+            {% csrf_token %}
+            <div class="modal-body">
+                <label for="custom_item_name">Item Name:</label>
+                <input class="form-control" type="text" id="custom_item_name" name="name" size="50"/><br>
+                <label for="custom_item_status">Status:</label>
+                <select class="form-control" id="custom_item_status" name="status">
+                    <option value="P">Pending</option>
+                    <option value="D">Done</option>
+                    <option value="R">Rejected</option>
+                </select>
+            </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-default" value="Save">Save</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

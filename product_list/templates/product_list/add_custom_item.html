@@ -1,0 +1,17 @@
+<h1 xmlns="http://www.w3.org/1999/html">Create new item for {{ checklist.title }} list</h1>
+<div class="form">
+    <form action="{% url 'product_list:save_item_to_list' checklist.id %}" method="post">
+        {% csrf_token %}
+        <label for="custom_item_name">Item Name:</label>
+        <input type="text" id="custom_item_name" name="name" size="50"/><br>
+        <label for="custom_item_status">Status:</label>
+        <select id="custom_item_status" name="status">
+            <option value="P">Pending</option>
+            <option value="D">Done</option>
+            <option value="R">Rejected</option>
+        </select>
+        <br>
+        <input type="submit" value="Save"/>
+    </form>
+    <a href="{% url 'product_list:index' %}">Cancel</a>
+</div>

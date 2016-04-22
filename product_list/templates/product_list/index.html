@@ -1,0 +1,50 @@
+{% extends "product_list/base.html" %}
+{% block content %}
+
+<div class="container">
+    <h3>Lists:</h3>
+    {% if latest_lists %}
+        <div class="list-group">
+        {% for list in latest_lists %}
+            <a class="list-group-item" href="{% url 'product_list:detail' list.id %}">{{ list.title }}</a>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p>No checklists available</p>
+    {% endif %}
+
+    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#addNewListModal"><span class="glyphicon glyphicon-plus"></span>Add New List</button>
+
+    <a href="{% url 'product_list:items' %}">View all items</a>
+</div>
+
+<div id="addNewListModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create new list</h4>
+      </div>
+      <div class="form">
+        <form action="{% url 'product_list:add_list' %}" method="post">
+            {% csrf_token %}
+            <div class="modal-body">
+                <label for="list_name">List Name:</label>
+                <input class="form-control" type="text" id="list_name" name="title" size="50"/><br>
+                <label for="list_status">Status:</label>
+                <select class="form-control" id="list_status" name="status">
+                    <option value="P">Pending</option>
+                    <option value="D">Done</option>
+                </select>
+            </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-default" value="Save">Save</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+        </form>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
