@@ -9,7 +9,7 @@
     <h3>{{ checklist.title }} list</h3>
     <ul class="list-group">
     {% for item in checklist.listitem_set.all %}
-        <li name="item" id="item-{{ item.id }}" class="list-group-item">{{ item.name }} <a href="{% url 'product_list:desc_list' checklist.id item.id %}"><span class="glyphicon glyphicon-link"></span></a>  <a href="{% url 'product_list:remove_item_from_list' checklist.id item.id %}"><span class="glyphicon glyphicon-remove"></span></a></li>
+        <li name="item" id="item-{{ item.id }}" class="list-group-item">{{ item.name }} <a href="{% url 'product_list:desc_list' checklist.id item.id %}"><span class="glyphicon glyphicon-link"></span></a>  <a href="{% url 'product_list:remove_item_from_list' checklist.id item.id %}"><span class="glyphicon glyphicon-trash"></span></a></li>
 
     {% endfor %}
     </ul>
