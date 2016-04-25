@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^desc_list_link/(?P<list_id>\d+)/(?P<item_id>\d+)/(?P<desc_id>\d+)/$', views.desc_list_link, name="desc_list_link"),
     url(r'^add_new_list/$', views.add_new_list, name="add_new_list"),
     url(r'^add_new_list/add/$', views.add_list, name="add_list"),
+    url(r'^remove_list/(?P<list_id>\d+)/$', views.remove_list, name="remove_list"),
     url(r'^add_new_item/save/$', views.save_item, name='save_item'),
     url(r'^save_item_to_list/(?P<item_id>\d+)/$', views.save_item_to_list, name='save_item_to_list'),
     url(r'^desc_list/(?P<list_id>\d+)/(?P<item_id>\d+)/$', views.LinkItemDescView.as_view(), name='desc_list'),

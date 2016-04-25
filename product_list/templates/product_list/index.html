@@ -4,11 +4,14 @@
 <div class="container">
     <h3>Lists:</h3>
     {% if latest_lists %}
-        <div class="list-group">
+        <ul class="list-group">
         {% for list in latest_lists %}
-            <a class="list-group-item" href="{% url 'product_list:detail' list.id %}">{{ list.title }}</a>
+            <li class="list-group-item">
+                <a href="{% url 'product_list:detail' list.id %}">{{ list.title }}      </a>
+                <a href="#" data-href="{% url 'product_list:remove_list' list.id %}" data-toggle="modal" data-target="#removeListModal" data-name="{{ list.title }}"><span class="glyphicon glyphicon-trash pull-right"></span></a>
+            </li>
         {% endfor %}
-        </div>
+        </ul>
     {% else %}
         <p>No checklists available</p>
     {% endif %}
@@ -46,5 +49,30 @@
 
   </div>
 </div>
+</div>
 
+<div id="removeListModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Remove: </h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to remove <span class="item-name"></span>?
+      </div>
+      <div class="modal-footer">
+          <a class="btn btn-primary btn-ok">Remove</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+     $('#removeListModal').on('show.bs.modal', function(e){
+       $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+       $('.item-name').html('<strong>' + $(e.relatedTarget).data('name') + '</strong>');
+    });
+</script>
 {% endblock %}

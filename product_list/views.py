@@ -49,6 +49,11 @@ def remove_item(request, item_id):
     item.delete()
     return HttpResponseRedirect(reverse('product_list:items'))
 
+def remove_list(request,list_id):
+    l = CheckList.objects.get(id=list_id)
+    l.delete()
+    return HttpResponseRedirect(reverse('product_list:index'))
+
 def update_item(request, item_id):
     item = ListItemDescription.objects.get(id=item_id)
     if request.method == 'POST':
